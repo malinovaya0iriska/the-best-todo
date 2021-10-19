@@ -9,7 +9,7 @@ type ButtonPropsType = {
 export const Button = (props: ButtonPropsType) => {
     const callback = () => props.onClickHandler()
     return (
-        <button className = {props.style? 'active-filter' : ''} onClick={callback}>{props.title}</button>
+        <button className={props.style ? 'active-filter' : ''} onClick={callback}>{props.title}</button>
     );
 };
 

@@ -6,18 +6,23 @@
 .App > div {
     margin-right: 50px;
 }
-input{
+
+input {
     outline: none;
 }
-.error{
+
+.error {
     color: red;
 }
-input.error{
+
+input.error {
     border: 2px solid red;
 }
-.active-filter{
+
+.active-filter {
     background-color: gold;
 }
+
 button {
     background-color: #f1e8bf;
     border: none;
@@ -25,6 +30,7 @@ button {
     padding: 5px;
     margin: 5px;
 }
-.is-done{
+
+.is-done {
     opacity: 0.5;
 }
