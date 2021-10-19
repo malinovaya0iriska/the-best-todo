@@ -1,4 +1,7 @@
 import React, {useState} from "react";
+import IconButton from "@mui/material/IconButton/IconButton";
+import TextField from "@mui/material/TextField/TextField";
+import {AddBox} from "@mui/icons-material/";
 
 type PropsType = {
     addItem: (title: string) => void
@@ -26,14 +29,18 @@ export const AddItemForm: React.FC<PropsType> = ({addItem}) => {
     }
     return (
         <div>
-            <input className={error ? 'error' : ''}
-                   onChange={onTitleChangeHandler}
-                   onKeyPress={onKeyPressHandler}
-                   value={title}
+            <TextField error={!!error}
+                       variant={'outlined'}
+                       className={error ? 'error' : ''}
+                       onChange={onTitleChangeHandler}
+                       onKeyPress={onKeyPressHandler}
+                       value={title}
+                       label={'enter you heading...'}
+                       helperText={error}
             />
-            <button onClick={onAddTaskClickHandler}>+</button>
-
-            {error && <div className={'error'}>{error}</div>}
+            <IconButton color={'primary'} size={'large'} onClick={onAddTaskClickHandler}>
+                <AddBox/>
+            </IconButton>
         </div>
     );
 };

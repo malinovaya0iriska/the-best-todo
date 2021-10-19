@@ -6,7 +6,7 @@ type ButtonPropsType = {
     style?: boolean
 }
 
-export const Button = (props: ButtonPropsType) => {
+export const ButtonCustom = (props: ButtonPropsType) => {
     const callback = () => props.onClickHandler()
     return (
         <button className={props.style ? 'active-filter' : ''} onClick={callback}>{props.title}</button>
