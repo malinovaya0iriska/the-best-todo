@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useReducer} from 'react';
 import './App.css';
 import {TodoList} from "./TodoList";
 import {v1} from "uuid";
@@ -12,6 +12,14 @@ import Button from "@mui/material/Button/Button";
 import Container from "@mui/material/Container/Container";
 import Grid from "@mui/material/Grid/Grid";
 import Paper from "@mui/material/Paper/Paper";
+import {
+    addTodoAC,
+    changeTodoFilterAC,
+    changeTodoTitleAC,
+    removeTodoAC,
+    todolistsReducer
+} from "./state/todolists-reducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasks-reducer";
 
 export type TasksType = {
     [key: string]: TaskType []
@@ -29,16 +37,17 @@ export type TodoType = {
 }
 export type FilterType = 'all' | 'active' | 'completed'
 
-export function App() {
+export function AppWithReducers() {
 
     const todolist_1_Id = v1()
     const todolist_2_Id = v1()
-    const [todolists, setTodolists] = useState<Array<TodoType>>([
+
+    let [todolists, dispatchToTodolists] = useReducer(todolistsReducer, [
         {id: todolist_1_Id, title: 'What to learn', filter: 'all'},
         {id: todolist_2_Id, title: 'My hobbies', filter: 'all'},
     ])
 
-    const [tasks, setTasks] = useState<TasksType>({
+    let [tasks, dispatchToTasks] = useReducer(tasksReducer, {
         [todolist_1_Id]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
             {id: v1(), title: 'Vanilla JS', isDone: true},
@@ -58,35 +67,35 @@ export function App() {
     })
 
     const changeFilter = (filter: FilterType, todolistId: string) => {
-        setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, filter} : tl))
+        dispatchToTodolists(changeTodoFilterAC(todolistId, filter))
     }
-    const removeTodolist = (todolistId: string) => {
-        setTodolists(todolists.filter(tl => tl.id !== todolistId))
+    const removeTodolist = (todolistId: string) =>{
+        dispatchToTodolists(removeTodoAC(todolistId))
+        dispatchToTasks(removeTodoAC(todolistId))
     }
     const addTodolist = (title: string) => {
-        let newTodoId = v1()
-        setTodolists([{id: newTodoId, title, filter: 'all'}, ...todolists])
-        setTasks({...tasks, [newTodoId]: []})
+        //create general action to save common ID for new TodoList
+        // uuid generate new Id every time if you'll pass AC directly to dispatch
+        let action = addTodoAC(title)
+        dispatchToTodolists(action)
+        dispatchToTasks(action)
     }
     const changeTodoTitle = (title: string, id: string) => {
-        setTodolists(todolists.map(tl => tl.id === id ? {...tl, title} : tl))
+        dispatchToTodolists(changeTodoTitleAC(id, title))
     }
     const removeTask = (id: string, todolistId: string) => {
-        let newTasks = tasks[todolistId].filter(t => t.id !== id)
-        setTasks({...tasks, [todolistId]: newTasks})
+        dispatchToTasks(removeTaskAC(id, todolistId))
     }
     const changeTaskStatus = (id: string, isDone: boolean, todolistId: string) => {
-        let newTasks = tasks[todolistId].map(t => t.id === id ? {...t, isDone} : t)
-        setTasks({...tasks, [todolistId]: newTasks})
+        dispatchToTasks(changeTaskStatusAC(id, isDone, todolistId))
     }
 
     const addTask = (title: string, todolistId: string) => {
-        setTasks({...tasks, [todolistId]: [{id: v1(), title: title.trim(), isDone: false}, ...tasks[todolistId]]})
+        dispatchToTasks(addTaskAC(title, todolistId))
     }
 
     const changeTaskTitle = (title: string, id: string, todolistId: string) => {
-        let newTasks = tasks[todolistId].map(t => t.id === id ? {...t, title} : t)
-        setTasks({...tasks, [todolistId]: newTasks})
+        dispatchToTasks(changeTaskTitleAC(id, title, todolistId))
 
     }
     return (
@@ -108,7 +117,6 @@ export function App() {
                 </Grid>
                 <Grid container spacing={10}>
                     {todolists.map(tl => {
-                        debugger
                         let tasksForTodolist = tasks[tl.id]
 
                         if (tl.filter === 'active') {

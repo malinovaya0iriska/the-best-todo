@@ -22,6 +22,7 @@ type TodoListPropsType = {
 }
 
 export function TodoList(props: TodoListPropsType) {
+
     const addTask = (title: string) => {
         props.addTask(title, props.id)
 
