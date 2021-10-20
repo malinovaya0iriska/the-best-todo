@@ -6,13 +6,13 @@ export type ActionTodosType = ReturnType<typeof removeTodoAC>
     | ReturnType<typeof changeTodoTitleAC>
     | ReturnType<typeof changeTodoFilterAC>
 
+const initialState: TodoType[] = []
 
-export const todolistsReducer = (state: TodoType[], action: ActionTodosType): TodoType[] => {
+export const todolistsReducer = (state = initialState, action: ActionTodosType): TodoType[] => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':
             return state.filter(tl => tl.id !== action.id)
         case 'ADD-TODOLIST':
-            debugger
             return [{id: action.todolistId, title: action.title, filter: 'all'}, ...state]
         case 'CHANGE-TODOLIST-TITLE':
             return state.map(tl => tl.id === action.id ? {...tl, title: action.title} : tl)

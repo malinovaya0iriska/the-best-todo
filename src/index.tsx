@@ -2,11 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {AppWithReducers} from "./AppWithReducers";
+import {AppWithRedux} from "./AppWithRedux";
+import {store} from "./state/store";
+import {Provider} from "react-redux";
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppWithReducers />
+      <Provider store={store}>
+          <AppWithRedux/>
+      </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
