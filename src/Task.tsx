@@ -3,7 +3,7 @@ import Checkbox from "@mui/material/Checkbox/Checkbox";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import Delete from "@mui/icons-material/Delete";
-import {TaskType} from "./AppWithRedux";
+import {TaskType} from "./App";
 
 type PropsTypes = {
     task: TaskType
