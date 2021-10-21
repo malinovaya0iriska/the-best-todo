@@ -6,7 +6,7 @@ type PropsType = {
     onChange: (value: string) => void
 }
 
-export const EditableSpan: React.FC<PropsType> = ({value, onChange}) => {
+export const EditableSpan: React.FC<PropsType> = React.memo(({value, onChange}) => {
     const [title, setTitle] = useState<string>(value)
     const [editMode, setEditMode] = useState<boolean>(false)
     const onDoubleClickHandler = () => {
@@ -25,6 +25,7 @@ export const EditableSpan: React.FC<PropsType> = ({value, onChange}) => {
             ? <TextField variant={'outlined'} type={'text'} autoFocus value={title} onChange={onChangeHandler} onBlur={setViewMode}/>
             : <span onDoubleClick={onDoubleClickHandler}>{value}</span>
     )
-        ;
-};
+
+}
+)
 

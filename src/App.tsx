@@ -4,7 +4,7 @@ import {TodoList} from "./TodoList";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
 import Toolbar from "@mui/material/Toolbar/Toolbar";
-import IconButton from "@mui/material/IconButton";
+import IconButton from "@mui/material/IconButton/IconButton";
 import AppBar from "@mui/material/AppBar/AppBar";
 import {Menu} from "@mui/icons-material";
 import Typography from "@mui/material/Typography/Typography";
@@ -108,7 +108,6 @@ export function App() {
                 </Grid>
                 <Grid container spacing={10}>
                     {todolists.map(tl => {
-                        debugger
                         let tasksForTodolist = tasks[tl.id]
 
                         if (tl.filter === 'active') {

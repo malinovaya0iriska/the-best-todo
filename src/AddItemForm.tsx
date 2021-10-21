@@ -6,9 +6,9 @@ import {AddBox} from "@mui/icons-material/";
 type PropsType = {
     addItem: (title: string) => void
 }
-export const AddItemForm: React.FC<PropsType> = ({addItem}) => {
+export const AddItemForm: React.FC<PropsType> =React.memo(({addItem}) => {
+    console.log('AddItemForm rendering')
     const [title, setTitle] = useState<string>('')
-
 
     const [error, setError] = useState<string | null>(null)
 
@@ -22,7 +22,7 @@ export const AddItemForm: React.FC<PropsType> = ({addItem}) => {
         } else setError('Heading is required!')
     }
     const onKeyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
+        error && setError(null)
         if (e.key === 'Enter') {
             onAddTaskClickHandler()
         }
@@ -43,5 +43,5 @@ export const AddItemForm: React.FC<PropsType> = ({addItem}) => {
             </IconButton>
         </div>
     );
-};
+})
 
