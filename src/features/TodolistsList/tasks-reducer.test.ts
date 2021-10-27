@@ -1,7 +1,8 @@
 import {addTaskAC, removeTaskAC, tasksReducer, updateTaskAC, UpdateDomainTaskModelType} from './tasks-reducer';
-import {TasksType} from '../App';
+import {TasksType} from '../../app/App';
 import {addTodoAC, removeTodoAC, TodolistDomainType, todolistsReducer} from "./todolists-reducer";
-import {TaskPriorities, TaskStatuses} from "../api/tasks-api";
+import {TaskPriorities, TaskStatuses} from "../../api/tasks-api";
+import {v1} from "uuid";
 
 let startState: TasksType
 
@@ -204,7 +205,7 @@ test('title of specified task should be changed', () => {
     expect(endState["todolistId2"][2].title).toBe('tea');
 });
 test('new array should be added when new todolist is added', () => {
-    const action = addTodoAC("new todolist");
+    const action = addTodoAC({id: v1(), title: 'new todolist', addedDate: '', order: 0});
 
     const endState = tasksReducer(startState, action)
 
@@ -223,7 +224,7 @@ test('ids should be equals', () => {
     const startTasksState: TasksType = {};
     const startTodolistsState: Array<TodolistDomainType> = [];
 
-    const action = addTodoAC("new todolist");
+    const action = addTodoAC({id: v1(), title: 'new todolist', addedDate: '', order: 0});
 
     const endTasksState = tasksReducer(startTasksState, action)
     const endTodolistsState = todolistsReducer(startTodolistsState, action)
@@ -232,8 +233,8 @@ test('ids should be equals', () => {
     const idFromTasks = keys[0];
     const idFromTodolists = endTodolistsState[0].id;
 
-    expect(idFromTasks).toBe(action.todolistId);
-    expect(idFromTodolists).toBe(action.todolistId);
+    expect(idFromTasks).toBe(action.todolist.id);
+    expect(idFromTodolists).toBe(action.todolist.id);
 });
 
 

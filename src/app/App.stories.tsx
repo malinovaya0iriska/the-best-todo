@@ -1,10 +1,8 @@
 import React from 'react';
-import {Story, ComponentMeta} from '@storybook/react';
+import {ComponentMeta, Story} from '@storybook/react';
 
-import {App} from "../App";
-import {ReduxStoreProviderDecorator} from "./decorators/ReduxStoreProviderDecorator";
-import {action} from "@storybook/addon-actions";
-import {EditableSpanExample} from "./EditableSpan.stories";
+import {App} from "./App";
+import {ReduxStoreProviderDecorator} from "../stories/decorators/ReduxStoreProviderDecorator";
 
 export default {
     title: 'App',

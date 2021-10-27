@@ -1,19 +1,5 @@
-// в результате запроса на сервер API возвращается промисс
+
 import axios from "axios";
-
-export type ResponseType<T = {}> = {
-    resultCode: number
-    fieldsErrors: Array<string>
-    messages: Array<string>
-    data: T
-}
-
-export type TodoType = {
-    id: string,
-    title: string,
-    addedDate: string,
-    order: number
-}
 
 export const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1',
@@ -23,6 +9,8 @@ export const instance = axios.create({
     }
 })
 
+//api
+// в результате запроса на сервер API возвращается промисс
 export const todolistAPI = {
     getTodos() {
         return instance.get<TodoType[]>('/todo-lists')
@@ -36,4 +24,18 @@ export const todolistAPI = {
     updateTodolistTitle(todolistId: string, title: string) {
         return instance.put<ResponseType>(`/todo-lists/${todolistId}`, {title})
     }
+}
+
+//types
+export type ResponseType<T = {}> = {
+    resultCode: number
+    fieldsErrors: Array<string>
+    messages: Array<string>
+    data: T
+}
+export type TodoType = {
+    id: string,
+    title: string,
+    addedDate: string,
+    order: number
 }
