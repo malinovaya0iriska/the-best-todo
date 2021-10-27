@@ -7,7 +7,7 @@ type PropsType = {
     addItem: (title: string) => void
 }
 export const AddItemForm: React.FC<PropsType> =React.memo(({addItem}) => {
-    console.log('AddItemForm rendering')
+
     const [title, setTitle] = useState<string>('')
 
     const [error, setError] = useState<string | null>(null)

@@ -102,14 +102,14 @@ export const UpdateTask = () => {
     const OnClickHandler = () => {
         const model = {
             addedDate: "2021-09-23T17:18:24.077",
-            deadline: null,
+            deadline: deadline,
             id: taskId,
             order: -4,
-            startDate: null,
+            startDate: startDate,
             todoList: null,
             todoListId: todolistId,
             title: title,
-            description: description,
+            description: null,
             status: 1,
             priority: priority,
         }

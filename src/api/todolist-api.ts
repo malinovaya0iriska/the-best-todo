@@ -9,10 +9,10 @@ export type ResponseType<T = {}> = {
 }
 
 export type TodoType = {
-    "id": string,
-    "title": string,
-    "addedDate": string,
-    "order": number
+    id: string,
+    title: string,
+    addedDate: string,
+    order: number
 }
 
 export const instance = axios.create({
@@ -25,10 +25,10 @@ export const instance = axios.create({
 
 export const todolistAPI = {
     getTodos() {
-        return instance.get<ResponseType<TodoType>>('/todo-lists')
+        return instance.get<TodoType[]>('/todo-lists')
     },
     addTodo(title: string) {
-        return instance.post<ResponseType<{item:TodoType}>>('/todo-lists', {title})
+        return instance.post<ResponseType<{ item: TodoType }>>('/todo-lists', {title})
     },
     deleteTodo(todolistId: string) {
         return instance.delete<ResponseType>(`/todo-lists/${todolistId}`)
