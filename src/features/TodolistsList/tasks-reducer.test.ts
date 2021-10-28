@@ -19,7 +19,8 @@ beforeEach(() => {
                 deadline: '',
                 addedDate: '',
                 order: 0,
-                priority: TaskPriorities.Low
+                priority: TaskPriorities.Low,
+                entityStatus: 'succeeded',
             },
             {
                 id: "2",
@@ -31,7 +32,8 @@ beforeEach(() => {
                 deadline: '',
                 addedDate: '',
                 order: 0,
-                priority: TaskPriorities.Low
+                priority: TaskPriorities.Low,
+                entityStatus: 'succeeded',
             },
             {
                 id: "3",
@@ -43,7 +45,8 @@ beforeEach(() => {
                 deadline: '',
                 addedDate: '',
                 order: 0,
-                priority: TaskPriorities.Hi
+                priority: TaskPriorities.Hi,
+                entityStatus: 'succeeded',
             },
         ],
         "todolistId2": [
@@ -57,7 +60,8 @@ beforeEach(() => {
                 deadline: '',
                 addedDate: '',
                 order: 0,
-                priority: TaskPriorities.Hi
+                priority: TaskPriorities.Hi,
+                entityStatus: 'succeeded',
             },
             {
                 id: "2",
@@ -69,7 +73,8 @@ beforeEach(() => {
                 deadline: '',
                 addedDate: '',
                 order: 0,
-                priority: TaskPriorities.Middle
+                priority: TaskPriorities.Middle,
+                entityStatus: 'succeeded',
             },
             {
                 id: "3",
@@ -81,7 +86,8 @@ beforeEach(() => {
                 deadline: '',
                 addedDate: '',
                 order: 0,
-                priority: TaskPriorities.Low
+                priority: TaskPriorities.Low,
+                entityStatus: 'succeeded',
             },
         ]
     };
@@ -105,7 +111,8 @@ test('correct task should be deleted from correct array', () => {
                 deadline: '',
                 addedDate: '',
                 order: 0,
-                priority: TaskPriorities.Low
+                priority: TaskPriorities.Low,
+                entityStatus: 'succeeded'
             },
             {
                 id: "2",
@@ -117,7 +124,8 @@ test('correct task should be deleted from correct array', () => {
                 deadline: '',
                 addedDate: '',
                 order: 0,
-                priority: TaskPriorities.Low
+                priority: TaskPriorities.Low,
+                entityStatus: 'succeeded'
             },
             {
                 id: "3",
@@ -129,7 +137,8 @@ test('correct task should be deleted from correct array', () => {
                 deadline: '',
                 addedDate: '',
                 order: 0,
-                priority: TaskPriorities.Hi
+                priority: TaskPriorities.Hi,
+                entityStatus: 'succeeded',
             },
         ],
         "todolistId2": [
@@ -143,7 +152,8 @@ test('correct task should be deleted from correct array', () => {
                 deadline: '',
                 addedDate: '',
                 order: 0,
-                priority: TaskPriorities.Hi
+                priority: TaskPriorities.Hi,
+                entityStatus: 'succeeded',
             },
             {
                 id: "3",
@@ -155,7 +165,8 @@ test('correct task should be deleted from correct array', () => {
                 deadline: '',
                 addedDate: '',
                 order: 0,
-                priority: TaskPriorities.Low
+                priority: TaskPriorities.Low,
+                entityStatus: 'succeeded',
             },
         ]
     });
@@ -173,7 +184,7 @@ test('correct task should be added to correct array', () => {
         deadline: '',
         addedDate: '',
         order: 0,
-        priority: TaskPriorities.Later
+        priority: TaskPriorities.Later,
     });
 
     const endState = tasksReducer(startState, action)
@@ -205,7 +216,7 @@ test('title of specified task should be changed', () => {
     expect(endState["todolistId2"][2].title).toBe('tea');
 });
 test('new array should be added when new todolist is added', () => {
-    const action = addTodoAC({id: v1(), title: 'new todolist', addedDate: '', order: 0});
+    const action = addTodoAC({id: v1(), title: 'new todolist', addedDate: '', order: 0,});
 
     const endState = tasksReducer(startState, action)
 

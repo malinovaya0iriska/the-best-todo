@@ -13,9 +13,11 @@ import LinearProgress from '@mui/material/LinearProgress'
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
+import {RequestStatusType} from "./app-reducer";
 
+export type TasksDomainType = TaskType & { entityStatus: RequestStatusType}
 export type TasksType = {
-    [key: string]: TaskType []
+    [key: string]: Array<TasksDomainType>
 }
 
 export function App() {

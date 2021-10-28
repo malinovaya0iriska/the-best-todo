@@ -4,6 +4,7 @@ import {ComponentMeta, ComponentStory} from '@storybook/react';
 import {action} from "@storybook/addon-actions";
 import {Task} from "./Task";
 import {TaskPriorities, TaskStatuses} from "../../../../api/tasks-api";
+import {RequestStatusType} from "../../../../app/app-reducer";
 
 export default {
     title: 'Todolist/Task',
@@ -35,7 +36,8 @@ TaskUncompleted.args = {
         order: 1,
         priority: TaskPriorities.Urgently,
         startDate: null,
-        todoListId: 'todolistId_1'
+        todoListId: 'todolistId_1',
+        entityStatus: 'succeeded' as RequestStatusType,
     },
     todolistId: 'todolistId_1'
 };
@@ -51,7 +53,8 @@ TaskCompleted.args = {
         order: 1,
         priority: TaskPriorities.Low,
         startDate: null,
-        todoListId: 'todolistId_1'
+        todoListId: 'todolistId_1',
+        entityStatus: 'succeeded' as RequestStatusType,
     },
     todolistId: 'todolistId_1'
 };

@@ -5,9 +5,9 @@ import {AddBox} from "@mui/icons-material/";
 
 type PropsType = {
     addItem: (title: string) => void
-    disabled: boolean
+    disabled?: boolean
 }
-export const AddItemForm: React.FC<PropsType> = React.memo(({addItem}) => {
+export const AddItemForm: React.FC<PropsType> = React.memo(({addItem, disabled}) => {
 
     const [title, setTitle] = useState<string>('')
 
@@ -39,7 +39,7 @@ export const AddItemForm: React.FC<PropsType> = React.memo(({addItem}) => {
                        label={'enter you heading...'}
                        helperText={error}
             />
-            <IconButton color={'primary'} size={'large'} onClick={onAddTaskClickHandler}>
+            <IconButton color={'primary'} size={'large'} onClick={onAddTaskClickHandler} disabled={disabled}>
                 <AddBox/>
             </IconButton>
         </div>
