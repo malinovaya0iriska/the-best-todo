@@ -9,14 +9,21 @@ import Button from "@mui/material/Button/Button";
 import Container from "@mui/material/Container/Container";
 import {TaskType} from "../api/tasks-api";
 import {TodolistsList} from "../features/TodolistsList/TodolistsList";
+import LinearProgress from '@mui/material/LinearProgress'
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "./store";
+import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 
 export type TasksType = {
     [key: string]: TaskType []
 }
 
 export function App() {
+    const status = useSelector((state: AppRootStateType) => state.app.status)
+
     return (
         <div className="App">
+            <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar style={{justifyContent: 'space-between'}}>
                     <IconButton edge={'start'} color={'inherit'} aria-label={'menu'}>
@@ -27,6 +34,7 @@ export function App() {
                     </Typography>
                     <Button variant={'outlined'} color={'inherit'}>Login</Button>
                 </Toolbar>
+                {status === 'loading' && <LinearProgress color={'secondary'}/>}
             </AppBar>
             <Container fixed>
                 <TodolistsList/>

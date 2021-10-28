@@ -10,15 +10,15 @@ import {v1} from 'uuid';
 
 let todolistId1: string;
 let todolistId2: string;
-let startState: Array<TodolistDomainType>=[];
+let startState: Array<TodolistDomainType> = [];
 
-beforeEach(()=>{
-     todolistId1 = v1();
-     todolistId2 = v1();
+beforeEach(() => {
+    todolistId1 = v1();
+    todolistId2 = v1();
 
-     startState = [
-        {id: todolistId1, title: "What to learn", filter: "all", addedDate: '', order: 0},
-        {id: todolistId2, title: "What to buy", filter: "all", addedDate: '', order: 0}
+    startState = [
+        {id: todolistId1, title: "What to learn", filter: "all", addedDate: '', order: 0, entityStatus: 'succeeded'},
+        {id: todolistId2, title: "What to buy", filter: "all", addedDate: '', order: 0, entityStatus: 'succeeded'}
     ]
 })
 
@@ -33,7 +33,12 @@ test('correct todolist should be added', () => {
 
     let newTodolistTitle = "New Todolist";
 
-    const endState = todolistsReducer(startState, addTodoAC({id: v1(), title: newTodolistTitle, addedDate: '', order: 0}))
+    const endState = todolistsReducer(startState, addTodoAC({
+        id: v1(),
+        title: newTodolistTitle,
+        addedDate: '',
+        order: 0
+    }))
 
     expect(endState.length).toBe(3);
     expect(endState[0].title).toBe(newTodolistTitle);

@@ -5,8 +5,9 @@ import {AddBox} from "@mui/icons-material/";
 
 type PropsType = {
     addItem: (title: string) => void
+    disabled: boolean
 }
-export const AddItemForm: React.FC<PropsType> =React.memo(({addItem}) => {
+export const AddItemForm: React.FC<PropsType> = React.memo(({addItem}) => {
 
     const [title, setTitle] = useState<string>('')
 
