@@ -2,7 +2,7 @@ import {instance, ResponseType} from "./todolist-api";
 
 export type LoginParamsType = {
     email: string
-    passsword: string
+    password: string
     rememberMe: boolean
     captcha?: string
 }
@@ -13,4 +13,7 @@ export const authAPI = {
     me() {
         return instance.get<ResponseType<{id: number,email: string,login: string}>>(`auth/me`, )
     },
+    logOut(){
+        return instance.delete<ResponseType<{ userId?: number }>>(`auth/login`)
+    }
 }

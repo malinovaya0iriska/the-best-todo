@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import Toolbar from "@mui/material/Toolbar/Toolbar";
 import IconButton from "@mui/material/IconButton/IconButton";
@@ -17,7 +17,7 @@ import {initializeAppTC, RequestStatusType} from "./app-reducer";
 import {Redirect, Route, Switch} from 'react-router-dom';
 import {Login} from "../features/Login/Login";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
-
+import {logOutTC} from "../features/Login/auth-reducer";
 
 
 export type TasksDomainType = TaskType & { entityStatus: RequestStatusType }
@@ -26,12 +26,19 @@ export type TasksType = {
 }
 
 export function App({demo = false}) {
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const status = useSelector<AppRootStateType, RequestStatusType>((state: AppRootStateType) => state.app.status)
+    const isInitialized = useSelector<AppRootStateType, boolean>((state: AppRootStateType) => state.app.isInitialized)
+
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(initializeAppTC())
     }, [])
-    const status = useSelector<AppRootStateType, RequestStatusType>((state: AppRootStateType) => state.app.status)
-    const isInitialized = useSelector<AppRootStateType, boolean>((state: AppRootStateType) => state.app.isInitialized)
+
+    const logOutHandler = useCallback(() => {
+        dispatch(logOutTC())
+    }, [])
+
     if (!isInitialized) {
         return <div style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}><CircularProgress/>
         </div>
@@ -47,7 +54,8 @@ export function App({demo = false}) {
                     <Typography variant={'h6'}>
                         News
                     </Typography>
-                    <Button variant={'outlined'} color={'inherit'}>Login</Button>
+                    {isLoggedIn &&
+                    <Button variant={'outlined'} color={'inherit'} onClick={logOutHandler}>Log OUT</Button>}
                 </Toolbar>
                 {status === 'loading' && <LinearProgress color={'secondary'}/>}
             </AppBar>

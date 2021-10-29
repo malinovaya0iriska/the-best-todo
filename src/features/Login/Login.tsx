@@ -11,6 +11,7 @@ import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
 import {Redirect} from 'react-router-dom';
+import {logInTC} from "./auth-reducer";
 
 export const Login = () => {
     const dispatch = useDispatch()
@@ -23,7 +24,7 @@ export const Login = () => {
                 rememberMe: false
             },
             onSubmit: values => {
-                dispatch((values))
+                dispatch(logInTC(values))
                 formik.resetForm()
             },
         }
