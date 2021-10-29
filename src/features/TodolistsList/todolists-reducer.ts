@@ -41,6 +41,9 @@ export const fetchTodosTC = () => (dispatch: Dispatch<ActionTodosType | ActionAp
             dispatch(setTodosAC(res.data))
             dispatch(setAppStatusAC('succeeded'))
         })
+        .catch((error) => {
+                handleServerNetworkError(error, dispatch)
+            })
 }
 export const addTodoTC = (title: string) => (dispatch: Dispatch<ActionTodosType | ActionAppType>) => {
     dispatch(setAppStatusAC('loading'))

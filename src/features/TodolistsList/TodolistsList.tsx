@@ -14,13 +14,21 @@ import Grid from "@mui/material/Grid/Grid";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import Paper from "@mui/material/Paper/Paper";
 import {TodoList} from "./Todolist/TodoList";
+import {Redirect} from "react-router-dom";
 
-export const TodolistsList = () => {
+type PropsType = {
+    demo?: boolean
+}
+export const TodolistsList: React.FC<PropsType> = ({demo= false}) => {
 
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const dispatch = useDispatch()
 
     useEffect(() => {
+        if (demo || !isLoggedIn) {
+            return
+        }
         dispatch(fetchTodosTC())
     }, [])
 
@@ -36,6 +44,10 @@ export const TodolistsList = () => {
     const changeTodoTitle = useCallback((title: string, id: string) => {
         dispatch(changeTodoTitleTC(id, title))
     }, [dispatch])
+
+    if (!isLoggedIn) {
+        return <Redirect to={'/login'}/>
+    }
 
     return (
         <>

@@ -80,8 +80,12 @@ const initialGlobalState = {
     },
     app: {
         status: 'succeeded',
-        error: null
+        error: null,
+        isInitialized: true,
     },
+    auth: {
+        isLoggedIn: true,
+    }
 };
 
 export const storyBookStore = createStore(rootReducer, initialGlobalState as AppRootStateType, applyMiddleware(thunk));

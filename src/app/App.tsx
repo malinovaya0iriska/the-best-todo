@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import Toolbar from "@mui/material/Toolbar/Toolbar";
 import IconButton from "@mui/material/IconButton/IconButton";
@@ -10,19 +10,32 @@ import Container from "@mui/material/Container/Container";
 import {TaskType} from "../api/tasks-api";
 import {TodolistsList} from "../features/TodolistsList/TodolistsList";
 import LinearProgress from '@mui/material/LinearProgress'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
-import {RequestStatusType} from "./app-reducer";
+import {initializeAppTC, RequestStatusType} from "./app-reducer";
+import {Redirect, Route, Switch} from 'react-router-dom';
+import {Login} from "../features/Login/Login";
+import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 
-export type TasksDomainType = TaskType & { entityStatus: RequestStatusType}
+
+
+export type TasksDomainType = TaskType & { entityStatus: RequestStatusType }
 export type TasksType = {
     [key: string]: Array<TasksDomainType>
 }
 
-export function App() {
-    const status = useSelector((state: AppRootStateType) => state.app.status)
-
+export function App({demo = false}) {
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(initializeAppTC())
+    }, [])
+    const status = useSelector<AppRootStateType, RequestStatusType>((state: AppRootStateType) => state.app.status)
+    const isInitialized = useSelector<AppRootStateType, boolean>((state: AppRootStateType) => state.app.isInitialized)
+    if (!isInitialized) {
+        return <div style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}><CircularProgress/>
+        </div>
+    }
     return (
         <div className="App">
             <ErrorSnackbar/>
@@ -39,7 +52,12 @@ export function App() {
                 {status === 'loading' && <LinearProgress color={'secondary'}/>}
             </AppBar>
             <Container fixed>
-                <TodolistsList/>
+                <Switch>
+                    <Route exact path={'/'} render={() => <TodolistsList demo={demo}/>}/>
+                    <Route path={'/login'} render={() => <Login/>}/>
+                    <Route path={'/404'} render={() => <h1>404: PAGE NOT FOUND</h1>}/>
+                    <Redirect from={'*'} to={'/404'}/>
+                </Switch>
             </Container>
         </div>
     );

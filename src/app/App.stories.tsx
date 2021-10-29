@@ -16,6 +16,6 @@ const Template: Story = (args) => <App {...args} />;
 export const AppWithRedux = Template.bind({});
 
 AppWithRedux.args = {
-
+    demo: true,
 };
 
