@@ -4,7 +4,7 @@ import {ModelType, taskAPI, TaskPriorities, TaskStatuses, TaskType} from "../../
 import {TasksType} from "../../app/App";
 import {AppRootStateType} from "../../app/store";
 import {TodoType} from "../../api/todolist-api";
-import {ActionAppType, RequestStatusType, setAppStatusAC} from "../../app/app-reducer";
+import {RequestStatusType, setAppStatusAC} from "../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 const initialState: TasksType = {}
@@ -58,22 +58,22 @@ export const changeTaskEntityStatusAC = (id: string, entityStatus: RequestStatus
     ({type: 'CHANGE-TASK-ENTITY-STATUS', id, entityStatus, todolistId} as const)
 
 //thunks
-export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionTasksType | ActionAppType>) => {
-    dispatch(setAppStatusAC('loading'))
+export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC({status: 'loading'}))
     taskAPI.getTasks(todolistId)
         .then((res) => {
             dispatch(setTasksAC(res.data.items, todolistId))
-            dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppStatusAC({status: 'succeeded'}))
         })
 }
-export const removeTasksTC = (id: string, todolistId: string) => (dispatch: Dispatch<ActionTasksType | ActionAppType>) => {
-    dispatch(setAppStatusAC('loading'))
+export const removeTasksTC = (id: string, todolistId: string) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC({status: 'loading'}))
     dispatch(changeTaskEntityStatusAC(id, 'loading', todolistId))
     taskAPI.deleteTask(todolistId, id)
         .then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(removeTaskAC(id, todolistId))
-                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setAppStatusAC({status: 'succeeded'}))
             } else {
                 handleServerAppError(res.data, dispatch)
             }
@@ -82,13 +82,13 @@ export const removeTasksTC = (id: string, todolistId: string) => (dispatch: Disp
             handleServerNetworkError(error, dispatch)
         })
 }
-export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch<ActionTasksType | ActionAppType>) => {
-    dispatch(setAppStatusAC('loading'))
+export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC({status: 'loading'}))
     taskAPI.addTask(todolistId, title)
         .then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(addTaskAC(res.data.data.item))
-                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setAppStatusAC({status: 'succeeded'}))
             } else {
                 handleServerAppError(res.data, dispatch)
             }
@@ -98,9 +98,9 @@ export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispa
         })
 }
 export const updateTaskTC = (taskId: string, todolistId: string, model: UpdateDomainTaskModelType) =>
-    (dispatch: Dispatch<ActionTasksType | ActionAppType>, getState: () => AppRootStateType) => {
+    (dispatch: Dispatch, getState: () => AppRootStateType) => {
 
-        dispatch(setAppStatusAC('loading'))
+        dispatch(setAppStatusAC({status: 'loading'}))
 // так как мы обязаны на сервер отправить все св-ва, которые сервер ожидает, а не только
 // те, которые мы хотим обновить, соответственно нам нужно в этом месте взять таску целиком  // чтобы у неё отобрать остальные св-ва
 
@@ -128,7 +128,7 @@ export const updateTaskTC = (taskId: string, todolistId: string, model: UpdateDo
                 .then((res) => {
                     if (res.data.resultCode === 0) {
                         dispatch(updateTaskAC(taskId, model, todolistId))
-                        dispatch(setAppStatusAC('succeeded'))
+                        dispatch(setAppStatusAC({status: 'succeeded'}))
                     } else {
                         handleServerAppError(res.data, dispatch)
                     }
